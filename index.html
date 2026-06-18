@@ -482,7 +482,7 @@
             te: { question: "ఒక విద్యార్థి సృజనాత్మక/డిజైన్ రంగానికి సరిపోతాడని నిర్ధారించడానికి ఏ లక్షణాలు ముఖ్యమైనవి?", tooltip: "చిత్రలేఖన నైపుణ్యాలతో పాటు, మీరు గమనించే ఇతర మానసిక మరియు సృజనాత్మక నైపుణ్యాలను తెలపండి.", options: ["అధిక ప్రాదేశిక వివేకం / 3D రూపాల్లో ఆలోచించడం", "అద్భుతమైన దృశ్య పరిశీలన నైపుణ్యాలు", "నిరంతర ఉత్సుకత మరియు ప్రయోగాత్మక మనస్తత్వం", "సహజమైన స్కెచింగ్/డ్రాయింగ్ నైపుణ్యాలు", "సాధారణ పాఠశాల చదువులలో ఇబ్బంది పడటం", "ఆచరణాత్మక సమస్య పరిష్కార సామర్థ్యాలు"] }
           },
           {
-            id: "q3", type: "radio", required: true, randomize: true,
+            id: "q3", type: "checkbox", required: true, randomize: true,
             en: { question: "What kind of career counseling model would you be most interested in conducting at your school?", options: ["Interactive Workshops (Hands-on mapping)", "In-person Discussions (One-on-one with parents)", "Expert Lectures (Invited talks from design pros)", "Group Discussions (Guided brainstorming sessions)"] },
             te: { question: "మీ పాఠశాలలో నిర్వహించడానికి మీరు ఏ రకమైన కెరీర్ కౌన్సెలింగ్ మోడల్‌పై ఎక్కువ ఆసక్తి చూపుతున్నారు?", options: ["ఇంటరాక్టివ్ వర్క్‌షాప్‌లు (చేతులతో చేసే వ్యాయామాలు)", "వ్యక్తిగత చర్చలు (తల్లిదండ్రులతో వన్-ఆన్-వన్)", "నిపుణుల ఉపన్యాసాలు (డిజైన్ నిపుణుల ప్రసంగాలు)", "బృంద చర్చలు (గైడెడ్ బ్రెయిన్‌స్టార్మింగ్)"] }
           }
@@ -550,9 +550,9 @@
             te: { question: "ఇమెయిల్ కాపీ", label: "నా రికార్డుల కోసం నా ప్రతిస్పందనల PDF కాపీని నాకు పంపండి." }
           },
           {
-            id: "q-consent", type: "consent", required: true,
-            en: { question: "Research Consent Statement", label: "Yes, I agree that the data collected from this survey can be used anonymously for academic research." },
-            te: { question: "పరిశోధన సమ్మతి పత్రం", label: "అవును, ఈ సర్వే ద్వారా సేకరించిన సమాచారాన్ని అనామకంగా ఉపయోగించడానికి నేను అంగీకరిస్తున్నాను." }
+            id: "q-consent", type: "radio", required: true, randomize: false,
+            en: { question: "Research Consent Statement", options: ["Yes, I agree that the data collected from this survey can be used for academic research.", "No, I do not agree."] },
+            te: { question: "పరిశోధన సమ్మతి పత్రం", options: ["అవును, ఈ సర్వే ద్వారా సేకరించిన సమాచారాన్ని అనామకంగా ఉపయోగించడానికి నేను అంగీకరిస్తున్నాను.", "లేదు, నేను అంగీకరించను."] }
           }
         ]
       }
@@ -696,7 +696,6 @@
           <span style="color:var(--ink);">అంచనా వేయడానికి సుమారు <strong>5–8 నిమిషాలు</strong> పడుతుంది.</span>
         </p>
         <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;">
-          <span class="limit-badge"><i data-lucide="lock" style="width:12px;height:12px;"></i> Anonymous &amp; Confidential</span>
           <span class="limit-badge"><i data-lucide="layers" style="width:12px;height:12px;"></i> 6 Sections</span>
           <span class="limit-badge"><i data-lucide="globe" style="width:12px;height:12px;"></i> EN · తెలుగు</span>
         </div>
@@ -721,7 +720,6 @@
         const data = q[qLang];
         const qNum = `${state.sectionIndex + 1}.${qIndex + 1}`;
 
-        // Initialize Shuffling for this question if needed
         if (q.randomize && !state.shuffled[q.id]) {
           state.shuffled[q.id] = shuffleArray(q.en.options.map((_, i) => i));
         }
@@ -736,7 +734,7 @@
 
         return `
         <div id="qblock-${q.id}" class="px-5 py-6 md:px-8 border-b border-[var(--border)] last:border-b-0 transition-all duration-300">
-          ${renderActionBar(q, qLang, data)}
+          ${renderActionBar(q, qLang, data, qNum)}
           ${qBody}
         </div>
       `;
@@ -744,12 +742,12 @@
 
       const isFirst = state.sectionIndex === 0;
       const isLast = state.sectionIndex === TOTAL_SECTIONS - 1;
-
-      // Submit Validation
-      const isConsentChecked = !!state.answers['q-consent'];
+      
+      // Submit Validation Logic for Yes/No Radio
+      const consentVal = state.answers['q-consent'];
+      const isConsentChecked = consentVal !== undefined && consentVal !== null;
       const isSubmitDisabled = isLast && !isConsentChecked;
 
-      // Dynamic Next Button Text
       let nextBtnText = '';
       if (isLast) {
         nextBtnText = isTe ? 'సమర్పించండి' : 'Submit';
@@ -796,9 +794,20 @@
     `;
     }
 
-    function renderActionBar(q, lang, data) {
+    function renderActionBar(q, lang, data, qNum) {
       const isTe = lang === 'te';
-      let readText = (q.type === 'text' || q.type === 'textarea' || q.type === 'consent') ? data.question : data.question + '. ' + (data.options || []).join('. ');
+      
+      // Dynamic Contextual Voice Script
+      let typeInstruction = '';
+      if (q.type === 'text' || q.type === 'textarea') typeInstruction = isTe ? 'దయచేసి మీ సమాధానాన్ని టైప్ చేయండి.' : 'Please type your answer.';
+      else if (q.type === 'radio') typeInstruction = isTe ? 'ఒక ఎంపికను ఎంచుకోండి.' : 'Please select one option.';
+      else if (q.type === 'checkbox' || q.type === 'limit-checkbox') typeInstruction = isTe ? 'వర్తించే అన్ని ఎంపికలను ఎంచుకోండి.' : 'Please select all that apply.';
+      else if (q.type === 'consent') typeInstruction = isTe ? 'అంగీకరించడానికి ఎంచుకోండి.' : 'Check to agree.';
+
+      let readText = `${isTe ? 'ప్రశ్న' : 'Question'} ${qNum || ''}. ${data.question}. ${typeInstruction}`;
+      if (data.options) {
+        readText += ' ' + data.options.join('. ');
+      }
 
       return `
       <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:8px;">
@@ -832,13 +841,15 @@
 
     function renderTextBody(q, data, qNum) {
       const saved = state.answers[q.id] || '';
+      // HTML Sanitization to prevent wiping text inputs if user types quotes or brackets
+      const safeSaved = String(saved).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
       const isTextarea = q.type === 'textarea';
       return `
       ${getQuestionTitleHtml(q, data, qNum)}
-      ${isTextarea
-          ? `<textarea class="form-input textarea-answer" data-qid="${q.id}" placeholder="${data.placeholder}">${saved}</textarea>`
-          : `<input type="text" class="form-input text-answer" data-qid="${q.id}" placeholder="${data.placeholder}" value="${saved}" />`
-        }
+      ${isTextarea 
+        ? `<textarea class="form-input textarea-answer" data-qid="${q.id}" placeholder="${data.placeholder}">${safeSaved}</textarea>`
+        : `<input type="text" class="form-input text-answer" data-qid="${q.id}" placeholder="${data.placeholder}" value="${safeSaved}" />`
+      }
     `;
     }
 
@@ -1009,24 +1020,67 @@
       const btnNext = document.getElementById('btn-next');
       if (btnNext) btnNext.addEventListener('click', async () => {
         stopAllAudio();
-
-        // 1. Mandatory Validation
+        
         if (!validateCurrentSection()) {
-          return; // Stop if invalid
+           return; 
         }
-
-        // 2. Next Section
-        if (state.sectionIndex < TOTAL_SECTIONS - 1) {
-          state.sectionIndex++;
-          render();
+        
+        if (state.sectionIndex < TOTAL_SECTIONS - 1) { 
+          state.sectionIndex++; 
+          render(); 
           window.scrollTo({ top: 0, behavior: 'smooth' });
-          return;
+          return; 
         }
-
+        
         // 3. SUBMIT LOGIC (Last Page)
         const isTe = state.globalLang === 'te';
-        const originalText = btnNext.innerHTML;
+        const consentIdx = state.answers['q-consent']; // 0 is Yes, 1 is No
+        
+        if (consentIdx === 1) { // User clicked "No"
+           showReasonModal(isTe, (reason) => {
+               executeSubmission(reason);
+           });
+        } else { // User clicked "Yes"
+           executeSubmission("-");
+        }
+      });
 
+      // --- MODAL & SUBMISSION HELPERS ---
+      function showReasonModal(isTe, onSubmit) {
+         const overlay = document.createElement('div');
+         overlay.className = 'fixed inset-0 z-50 flex items-center justify-center px-4 screen';
+         overlay.style.backgroundColor = 'rgba(0,0,0,0.6)';
+         overlay.style.backdropFilter = 'blur(4px)';
+         overlay.innerHTML = `
+           <div class="card w-full max-w-md p-6 md:p-8 shadow-2xl border border-[var(--border)]" style="background:var(--stone);">
+             <h3 style="font-size:20px;font-weight:700;color:var(--charcoal);margin-bottom:8px;">
+               ${isTe ? 'దయచేసి మాతో పంచుకోండి' : 'Help us understand'}
+             </h3>
+             <p style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:16px;">
+               ${isTe ? 'మీరు సమ్మతిని ఎందుకు నిరాకరించారో తెలుసుకోవాలనుకుంటున్నాము. మీ అభిప్రాయం మాకు ముఖ్యమైనది.' : 'Could you briefly share why you chose not to consent? Your perspective helps us improve.'}
+             </p>
+             <textarea id="reason-input" class="form-input w-full mb-6" style="min-height:100px;" placeholder="${isTe ? 'మీ కారణాన్ని ఇక్కడ టైప్ చేయండి...' : 'Type your reason here...'}"></textarea>
+             <div style="display:flex; gap:12px;">
+               <button id="btn-cancel-modal" class="btn-ghost" style="flex:1;">${isTe ? 'రద్దు చేయి' : 'Cancel'}</button>
+               <button id="btn-submit-modal" class="btn-primary" style="flex:1;">${isTe ? 'సమర్పించండి' : 'Submit Response'}</button>
+             </div>
+           </div>
+         `;
+         document.body.appendChild(overlay);
+
+         document.getElementById('btn-cancel-modal').onclick = () => overlay.remove();
+         document.getElementById('btn-submit-modal').onclick = () => {
+           const reason = document.getElementById('reason-input').value.trim() || "No reason provided";
+           overlay.remove();
+           onSubmit(reason);
+         };
+      }
+
+      async function executeSubmission(consentReason) {
+        const isTe = state.globalLang === 'te';
+        const btnNext = document.getElementById('btn-next');
+        const originalText = btnNext.innerHTML;
+        
         btnNext.innerHTML = `<i data-lucide="loader-2" class="animate-spin" style="width:16px;height:16px;animation:spin 1s linear infinite;"></i> ${isTe ? 'సమర్పిస్తున్నాము...' : 'Submitting...'}`;
         btnNext.style.pointerEvents = 'none';
         btnNext.style.opacity = '0.7';
@@ -1037,11 +1091,12 @@
 
         SURVEY_SECTIONS.forEach(sec => {
           sec.questions.forEach(q => {
-            if (q.type === 'consent') return; // Skip internal consent states from payload
-
-            const qText = q.en.question;
+            if (q.type === 'consent') return; 
+            if (q.id === 'q-optin') return;
+            
+            const qText = q.en.question; 
             let answer = "No Answer";
-
+            
             if (q.type === 'text' || q.type === 'textarea') {
               answer = state.answers[q.id] || "No Answer";
             } else if (q.type === 'radio') {
@@ -1051,18 +1106,20 @@
               const sArr = state.answers[q.id] || [];
               if (sArr.length > 0) answer = sArr.map(idx => q.en.options[idx]).join(", ");
             }
-
-            // Email opt-in masking logic
+            
             if (q.id === 'q-email' && !wantsEmail) {
-              finalPayload["Email Address (Opted Out of PDF)"] = answer;
+               finalPayload["Email Address (Opted Out of PDF)"] = answer;
             } else {
-              finalPayload[qText] = answer;
+               finalPayload[qText] = answer;
             }
           });
         });
 
-        const GOOGLE_APP_URL = "https://script.google.com/macros/s/AKfycbyczxpzNk1Eop7RnutfYMAvWesnH9WpCTTYJyxhQAsEjFkqVVf-vzs2uY3xQSkgzoeXBw/exec";
+        // Add the extra column for the modal reason
+        finalPayload["Consent Rejection Reason"] = consentReason;
 
+        const GOOGLE_APP_URL = "https://script.google.com/macros/s/AKfycbyczxpzNk1Eop7RnutfYMAvWesnH9WpCTTYJyxhQAsEjFkqVVf-vzs2uY3xQSkgzoeXBw/exec"; 
+        
         try {
           await fetch(GOOGLE_APP_URL, {
             method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
@@ -1074,7 +1131,7 @@
           alert(isTe ? "ఏదో తప్పు జరిగింది. దయచేసి మళ్లీ ప్రయత్నించండి." : "Something went wrong. Please try again.");
           btnNext.innerHTML = originalText; btnNext.style.pointerEvents = 'auto'; btnNext.style.opacity = '1'; initIcons();
         }
-      });
+      }
 
       // Global Language Toggle
       document.querySelectorAll('.global-lang-toggle').forEach(btn => {
