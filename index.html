@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Art Educator Career Guidance Survey</title>
+  <link rel="icon"
+    href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23C2874F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><polyline points="9 14 11 16 15 11"></polyline></svg>'
+    type="image/svg+xml" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ── Custom Tokens ───────────────────────────────────────────── */
+    :root {
+      --stone: #FAFAF8;
+      --cream: #F4F1EC;
+      --sand: #E8E2D9;
+      --amber: #C2874F;
+      --amber-lt: #F0DEC8;
+      --charcoal: #18181B;
+      --ink: #3F3F46;
+      --muted: #71717A;
+      --border: #E4E4E7;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.07), 0 4px 16px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 4px 24px rgba(0, 0, 0, 0.10);
+    }
+
+    /* ── Base Reset ───────────────────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: var(--cream);
+      color: var(--charcoal);
+      min-height: 100vh;
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Screen Transitions ───────────────────────────────────────── */
+    .screen {
+      animation: fadeSlideIn 0.35s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ── Card ─────────────────────────────────────────────────────── */
+    .card {
+      background: var(--stone);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    /* ── Action Bar Pill ──────────────────────────────────────────── */
+    .action-bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      background: rgba(250, 250, 248, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 4px 6px;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .ab-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: 0.02em;
+      transition: background 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+
+    .ab-btn:hover {
+      background: var(--sand);
+    }
+
+    .ab-btn.active {
+      background: var(--charcoal);
+      color: #fff;
+    }
+
+    .ab-divider {
+      width: 1px;
+      height: 18px;
+      background: var(--border);
+      margin: 0 2px;
+    }
+
+    /* ── Tooltip (Mobile Optimized) ───────────────────────────────── */
+    .tooltip-wrap {
+      position: relative;
+    }
+
+    .tooltip-box {
+      position: absolute;
+      bottom: calc(100% + 10px);
+      right: -8px;
+      left: auto;
+      transform: scale(0.95);
+      transform-origin: bottom right;
+      background: var(--charcoal);
+      color: #fff;
+      font-size: 13px;
+      line-height: 1.5;
+      padding: 12px 16px;
+      border-radius: 12px;
+      width: 260px;
+      max-width: 85vw;
+      text-align: left;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s, transform 0.18s;
+      z-index: 50;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .tooltip-box::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      right: 18px;
+      left: auto;
+      border: 6px solid transparent;
+      border-top-color: var(--charcoal);
+    }
+
+    .tooltip-wrap:hover .tooltip-box,
+    .tooltip-wrap.active .tooltip-box {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* ── Full-Width Interactive Cards (Radio & Checkbox) ──────────── */
+    .msq-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 18px;
+      cursor: pointer;
+      background: var(--stone);
+      transition: border-color 0.18s, background 0.18s, transform 0.1s;
+      font-size: 14px;
+      color: var(--ink);
+      line-height: 1.45;
+    }
+
+    .msq-card:hover {
+      border-color: var(--amber);
+    }
+
+    .msq-card.selected {
+      border-color: var(--charcoal);
+      background: var(--cream);
+    }
+
+    .msq-card.disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      border-color: var(--border);
+      background: var(--stone);
+    }
+
+    /* Custom Radio Dot */
+    .radio-dot {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.18s;
+      background: #fff;
+      margin-top: 2px;
+    }
+
+    .msq-card.selected .radio-dot {
+      border-color: var(--charcoal);
+    }
+
+    .radio-dot-inner {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--charcoal);
+      opacity: 0;
+      transition: opacity 0.18s;
+    }
+
+    .msq-card.selected .radio-dot-inner {
+      opacity: 1;
+    }
+
+    /* Custom Checkbox Square */
+    .check-box {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.18s, background 0.18s;
+      background: #fff;
+      margin-top: 2px;
+    }
+
+    .msq-card.selected .check-box {
+      background: var(--charcoal);
+      border-color: var(--charcoal);
+    }
+
+    .check-icon {
+      color: #fff;
+      width: 13px;
+      height: 13px;
+      opacity: 0;
+      transition: opacity 0.18s;
+    }
+
+    .msq-card.selected .check-icon {
+      opacity: 1;
+    }
+
+    /* ── Progress Bar ─────────────────────────────────────────────── */
+    .progress-track {
+      height: 4px;
+      background: var(--sand);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--charcoal);
+      border-radius: 99px;
+      transition: width 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
+    /* ── Form Inputs ──────────────────────────────────────────────── */
+    .form-input {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 15px;
+      color: var(--charcoal);
+      background: var(--stone);
+      outline: none;
+      transition: border-color 0.18s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .form-input:focus {
+      border-color: var(--charcoal);
+    }
+
+    .form-input::placeholder {
+      color: var(--muted);
+    }
+
+    textarea.form-input {
+      resize: vertical;
+      min-height: 140px;
+      font-family: inherit;
+      line-height: 1.6;
+    }
+
+    /* ── Buttons ──────────────────────────────────────────────────── */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--charcoal);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.01em;
+      transition: background 0.18s, transform 0.12s, box-shadow 0.18s, opacity 0.18s;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      flex: 1 1 auto;
+      text-align: center;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: #2d2d30;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-primary:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .btn-primary:disabled {
+      background: var(--muted);
+      cursor: not-allowed;
+      box-shadow: none;
+      opacity: 0.5;
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: transparent;
+      color: var(--ink);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 13px 24px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: border-color 0.18s, background 0.18s;
+      flex: 1 1 auto;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--ink);
+      background: var(--cream);
+    }
+
+    /* ── Miscellanous ─────────────────────────────────────────────── */
+    .tts-active {
+      background: #FEF3C7 !important;
+      color: #92400E !important;
+    }
+
+    .limit-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 14px;
+    }
+
+    .limit-badge.reached {
+      color: var(--amber);
+      border-color: var(--amber);
+      background: var(--amber-lt);
+    }
+
+    .error-highlight {
+      border-left: 4px solid #EF4444 !important;
+      background: #FEF2F2 !important;
+      border-radius: 12px;
+      padding: 16px;
+      margin-left: -16px;
+      margin-right: -16px;
+      width: calc(100% + 32px) !important;
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--sand);
+      border-radius: 99px;
+    }
+
+    [data-lucide] {
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+  <div style="height:4px; background: linear-gradient(90deg, var(--amber), #E8A068, var(--amber));"></div>
+  <div id="app" class="flex-1 flex flex-col items-center justify-center py-6 px-4 md:py-10"></div>
+
+  <script>
+    /* ════════════════════════════════════════════════════════════════
+       SURVEY DATA — Grouped by Section
+    ════════════════════════════════════════════════════════════════ */
+    const SURVEY_SECTIONS = [
+      {
+        id: "sec-1",
+        en: { title: "1. Basic Information" },
+        te: { title: "1. సాధారణ సమాచారం" },
+        questions: [
+          {
+            id: "q-name", type: "text", required: true,
+            en: { question: "Name of the Educator", placeholder: "Type Here" },
+            te: { question: "ఉపాధ్యాయుని పేరు", placeholder: "మీ సమాధానం" }
+          },
+          {
+            id: "q-email", type: "text", required: true,
+            en: { question: "Email Address", placeholder: "example@school.com" },
+            te: { question: "ఇమెయిల్ చిరునామా", placeholder: "example@school.com" }
+          },
+          {
+            id: "q-exp", type: "radio", required: true, randomize: false,
+            en: { question: "Years of Experience as an Educator", options: ["0 - 3 Years", "3 - 6 Years", "6 - 10 Years", "10+ Years"] },
+            te: { question: "ఉపాధ్యాయునిగా అనుభవం", options: ["0 - 3 సంవత్సరాలు", "3 - 6 సంవత్సరాలు", "6 - 10 సంవత్సరాలు", "10+ సంవత్సరాలు"] }
+          },
+          {
+            id: "q-school-type", type: "radio", required: true, randomize: false,
+            en: { question: "School Type", options: ["Daycare", "Residential", "Government", "Private", "Special Fine Arts Residential School"] },
+            te: { question: "పాఠశాల రకం", options: ["డేకేర్", "రెసిడెన్షియల్ (వసతి పాఠశాల)", "ప్రభుత్వ పాఠశాల", "ప్రైవేట్ పాఠశాల", "ప్రత్యేక లలిత కళల వసతి పాఠశాల"] }
+          },
+          {
+            id: "q-school-region", type: "radio", required: true, randomize: false,
+            en: { question: "School Region", options: ["Urban (City)", "Town", "Rural area"] },
+            te: { question: "పాఠశాల ఉన్న ప్రాంతం", options: ["పట్టణ ప్రాంతం (నగరం)", "టౌన్ ప్రాంతం", "గ్రామీణ ప్రాంతం"] }
+          },
+          {
+            id: "q-qual", type: "radio", required: true, randomize: false,
+            en: { question: "Your Professional Qualification", options: ["TTC (Teacher Training Certificate)", "Graduate (BFA/Design/Any Degree)", "Postgraduate (MFA/M.Des/MA Arts/Any PG)", "PhD Scholar"] },
+            te: { question: "మీ విద్యా అర్హత", options: ["టి.టి.సి (టీచర్ ట్రైనింగ్ సర్టిఫికేట్)", "గ్రాడ్యుయేట్ (డిగ్రీ)", "పోస్ట్ గ్రాడ్యుయేట్ (పీజీ)", "పిహెచ్.డి స్కాలర్"] }
+          },
+          {
+            id: "q-levels", type: "radio", required: true, randomize: false,
+            en: { question: "Class Levels Taught", options: ["Up to 5th Class", "Up to 10th Class", "Intermediate (11th & 12th)"] },
+            te: { question: "మీరు బోధించే తరగతులు", options: ["5వ తరగతి వరకు", "10వ తరగతి వరకు", "ఇంటర్మీడియట్ (11వ & 12వ తరగతి)"] }
+          }
+        ]
+      },
+      {
+        id: "sec-2",
+        en: { title: "2. Student Fit & Counseling Timeline" },
+        te: { title: "2. విద్యార్థి అర్హత మరియు కౌన్సెలింగ్ సమయం" },
+        questions: [
+          {
+            id: "q1", type: "radio", required: true, randomize: false,
+            en: { question: "Which class/grade is the right stage to introduce formal career counseling in creative fields?", options: ["Class 8 or below (Early school years)", "Class 9", "Class 10 (Secondary board year)", "Intermediate / Class 11 & 12"] },
+            te: { question: "సృజనాత్మక మరియు డిజైన్ రంగాలలో విద్యార్థులకు కెరీర్ కౌన్సెలింగ్‌ను పరిచయం చేయడానికి ఏ తరగతి సరైన దశ?", options: ["8వ తరగతి లేదా అంతకంటే తక్కువ", "9వ తరగతి", "10వ తరగతి", "ఇంటర్మీడియట్ / 11 మరియు 12వ తరగతి"] }
+          },
+          {
+            id: "q2", type: "checkbox", required: true, randomize: true,
+            en: { question: "What parameters indicate a student is fit for a creative/design career?", tooltip: "Beyond drawing skills, we want to know what cognitive or behavioral signs you look for.", options: ["High spatial intelligence / thinking in 3D forms", "Excellent visual observation skills & detail oriented", "Persistent curiosity & experimental mindset", "Strong innate sketching/drawing skills", "Struggles with regular theoretical academics", "Practical problem-solving capabilities"] },
+            te: { question: "ఒక విద్యార్థి సృజనాత్మక/డిజైన్ రంగానికి సరిపోతాడని నిర్ధారించడానికి ఏ లక్షణాలు ముఖ్యమైనవి?", tooltip: "చిత్రలేఖన నైపుణ్యాలతో పాటు, మీరు గమనించే ఇతర మానసిక మరియు సృజనాత్మక నైపుణ్యాలను తెలపండి.", options: ["అధిక ప్రాదేశిక వివేకం / 3D రూపాల్లో ఆలోచించడం", "అద్భుతమైన దృశ్య పరిశీలన నైపుణ్యాలు", "నిరంతర ఉత్సుకత మరియు ప్రయోగాత్మక మనస్తత్వం", "సహజమైన స్కెచింగ్/డ్రాయింగ్ నైపుణ్యాలు", "సాధారణ పాఠశాల చదువులలో ఇబ్బంది పడటం", "ఆచరణాత్మక సమస్య పరిష్కార సామర్థ్యాలు"] }
+          },
+          {
+            id: "q3", type: "radio", required: true, randomize: true,
+            en: { question: "What kind of career counseling model would you be most interested in conducting at your school?", options: ["Interactive Workshops (Hands-on mapping)", "In-person Discussions (One-on-one with parents)", "Expert Lectures (Invited talks from design pros)", "Group Discussions (Guided brainstorming sessions)"] },
+            te: { question: "మీ పాఠశాలలో నిర్వహించడానికి మీరు ఏ రకమైన కెరీర్ కౌన్సెలింగ్ మోడల్‌పై ఎక్కువ ఆసక్తి చూపుతున్నారు?", options: ["ఇంటరాక్టివ్ వర్క్‌షాప్‌లు (చేతులతో చేసే వ్యాయామాలు)", "వ్యక్తిగత చర్చలు (తల్లిదండ్రులతో వన్-ఆన్-వన్)", "నిపుణుల ఉపన్యాసాలు (డిజైన్ నిపుణుల ప్రసంగాలు)", "బృంద చర్చలు (గైడెడ్ బ్రెయిన్‌స్టార్మింగ్)"] }
+          }
+        ]
+      },
+      {
+        id: "sec-3",
+        en: { title: "3. Student & Parent Interest" },
+        te: { title: "3. విద్యార్థులు మరియు తల్లిదండ్రుల ఆసక్తి" },
+        questions: [
+          {
+            id: "q4", type: "radio", required: true, randomize: false,
+            en: { question: "How often do students express interest in pursuing professional creative careers?", options: ["Very Often", "Sometimes", "Rarely", "Never"] },
+            te: { question: "విద్యార్థులు ప్రొఫెషనల్ క్రియేటివ్ కెరీర్‌లను ఎంచుకోవడానికి ఎంత తరచుగా ఆసక్తి చూపుతారు?", options: ["చాలా తరచుగా", "అప్పుడప్పుడు", "అరుదుగా", "ఎప్పుడూ లేదు"] }
+          },
+          {
+            id: "q5", type: "checkbox", required: true, randomize: true,
+            en: { question: "What are the primary challenges you face when counseling parents about creative careers?", tooltip: "Identify specific parental roadblocks so we can address them directly with resources.", options: ["Societal pressure to choose STEM/Commerce streams", "Fear of unstable jobs & low starting salaries", "Extreme bias/pressure toward Engineering/Medical pathways", "High financial cost of professional design education", "Lack of 'Title Recognition' (like Doctor or Engineer)", "General lack of awareness about modern high-paying creative fields"] },
+            te: { question: "క్రియేటివ్ కెరీర్‌ల గురించి తల్లిదండ్రులకు కౌన్సెలింగ్ ఇచ్చేటప్పుడు మీరు ఎదుర్కొనే ప్రధాన సవాళ్లు ఏవి?", tooltip: "తల్లిదండ్రుల నుండి వచ్చే నిర్దిష్ట అభ్యంతరాలను గుర్తించండి, తద్వారా వాటిని పరిష్కరించవచ్చు.", options: ["STEM/కామర్స్ వైపు సమాజం నుండి వచ్చే ఒత్తిడి", "అస్థిరమైన ఉద్యోగ అవకాశాలు & తక్కువ జీతాల భయం", "ఇంజనీరింగ్/మెడికల్ మార్గాల పట్ల విపరీతమైన పక్షపాతం", "ప్రొఫెషనల్ డిజైన్ విద్య యొక్క అధిక ఖర్చు", "డాక్టర్ లేదా ఇంజనీర్ వంటి 'హోదా గుర్తింపు' లేకపోవడం", "ఆధునిక అధిక ఆదాయం వచ్చే క్రియేటివ్ రంగాలపై అవగాహన లేకపోవడం"] }
+          }
+        ]
+      },
+      {
+        id: "sec-4",
+        en: { title: "4. Educator Knowledge & Comfort" },
+        te: { title: "4. ఉపాధ్యాయుల అవగాహన స్థాయి" },
+        questions: [
+          {
+            id: "q6", type: "checkbox", required: true, randomize: true,
+            en: { question: "Which modern creative career paths do you feel you need more information on to guide students effectively?", tooltip: "Highlight gaps where your personal counseling capacity needs up-to-date industry data.", options: ["Industrial & Product Design", "UI/UX Design", "Visual Communication & Digital Branding", "2D/3D Animation, VFX & Game Design", "Architecture & Interior Design", "Textile & Fashion Design", "Traditional & Commercial Fine Arts", "Photography, Filmmaking & Video Editing", "Orange Economy (Creative Economy)"] },
+            te: { question: "విద్యార్థులకు సమర్థవంతంగా మార్గనిర్దేశం చేయడానికి ఏ ఆధునిక క్రియేటివ్ రంగాలపై మీకు మరింత సమాచారం కావాలి?", tooltip: "మీకు పరిశ్రమకు సంబంధించిన తాజా డేటా అవసరమయ్యే ప్రాంతాలను హైలైట్ చేయండి.", options: ["ఇండస్ట్రియల్ & ప్రొడక్ట్ డిజైన్", "UI/UX డిజైన్", "విజువల్ కమ్యూనికేషన్ & డిజిటల్ బ్రాండింగ్", "2D/3D యానిమేషన్, VFX & గేమ్ డిజైన్", "ఆర్కిటెక్చర్ & ఇంటీరియర్ డిజైన్", "టెక్స్‌టైల్ & ఫ్యాషన్ డిజైన్", "ట్రెడిషనల్ & కమర్షియల్ ఫైన్ ఆర్ట్స్", "ఫోటోగ్రఫీ, ఫిల్మ్‌మేకింగ్ & వీడియో ఎడిటింగ్", "ఆరెంజ్ ఎకానమీ (క్రియేటివ్ ఎకానమీ)"] }
+          },
+          {
+            id: "q7", type: "radio", required: true, randomize: false,
+            en: { question: "Are you aware of the art/design entrance exams and criteria for top universities in India?", options: ["Yes, I am fully aware of exams, evaluation criteria, and dates", "I only know names, but lack exact details (eligibility, portfolio prep)", "No, I have very little to no awareness"] },
+            te: { question: "భారతదేశంలోని అగ్రశ్రేణి విశ్వవిద్యాలయాల ప్రవేశ పరీక్షలు మరియు అర్హత ప్రమాణాల గురించి మీకు అవగాహన ఉందా?", options: ["అవును, నాకు పరీక్షలు, అర్హతలు మరియు తేదీలపై పూర్తి అవగాహన ఉంది", "నాకు పేర్లు మాత్రమే తెలుసు, పూర్తి వివరాలు తెలియవు", "లేదు, నాకు దీనిపై చాలా తక్కువ లేదా ఎటువంటి అవగాహన లేదు"] }
+          }
+        ]
+      },
+      {
+        id: "sec-5",
+        en: { title: "5. Desired Tools & Resources" },
+        te: { title: "5. అవసరమైన వనరులు మరియు సాధనాలు" },
+        questions: [
+          {
+            id: "q8", type: "limit-checkbox", max: 3, required: true, randomize: true,
+            en: { question: "What tools would help you most in counseling students for creative careers?", options: ["Live webinars with industry creative experts for parents", "A clear directory of top design colleges, fees, and placements", "Expert-led training workshops specifically for art educators", "A 'Creative Career Roadmap' detailing streams post-10th/Inter", "A practical handbook on guiding students to build an Art Portfolio", "Simple psychometric or interest-mapping evaluation templates"] },
+            te: { question: "క్రియేటివ్ కెరీర్‌ల కోసం విద్యార్థులకు కౌన్సెలింగ్ ఇవ్వడంలో మీకు ఏ సాధనాలు ఎక్కువగా సహాయపడతాయి?", options: ["తల్లిదండ్రుల కోసం పరిశ్రమ నిపుణులతో లైవ్ వెబ్‌నార్‌లు", "టాప్ డిజైన్ కాలేజీలు, ఫీజులు మరియు ప్లేస్‌మెంట్‌ల స్పష్టమైన డైరెక్టరీ", "ఆర్ట్ ఉపాధ్యాయుల కోసం ప్రత్యేకంగా నిపుణుల నేతృత్వంలోని శిక్షణా వర్క్‌షాప్‌లు", "10వ తరగతి/ఇంటర్ తర్వాత మార్గాలను వివరించే 'క్రియేటివ్ కెరీర్ రోడ్‌మ్యాప్'", "ఆర్ట్ పోర్ట్‌ఫోలియోను రూపొందించడంలో విద్యార్థులకు మార్గనిర్దేశం చేసే హ్యాండ్‌బుక్", "సరళమైన సైకోమెట్రిక్ లేదా ఇంట్రెస్ట్-మ్యాపింగ్ మూల్యాంకన టెంప్లేట్‌లు"] }
+          }
+        ]
+      },
+      {
+        id: "sec-6",
+        en: { title: "6. Open Comments & Research Consent" },
+        te: { title: "6. సలహాలు, అభిప్రాయాలు & పరిశోధన సమ్మతి" },
+        questions: [
+          {
+            id: "q9", type: "textarea", required: false,
+            en: { question: "What is the biggest personal challenge you face as an art educator when guiding students toward higher education in creative fields? (Optional)", placeholder: "Type your answer here..." },
+            te: { question: "విద్యార్థులను క్రియేటివ్ రంగాలలో ఉన్నత విద్య వైపు నడిపించడంలో మీరు ఎదుర్కొంటున్న అతి పెద్ద వ్యక్తిగత సవాలు ఏమిటి? (ఐచ్ఛికం)", placeholder: "మీ సమాధానాన్ని ఇక్కడ టైప్ చేయండి..." }
+          },
+          {
+            id: "q-optin", type: "consent", required: false,
+            en: { question: "Email Notification", label: "Send me a PDF copy of my survey responses for my records." },
+            te: { question: "ఇమెయిల్ కాపీ", label: "నా రికార్డుల కోసం నా ప్రతిస్పందనల PDF కాపీని నాకు పంపండి." }
+          },
+          {
+            id: "q-consent", type: "consent", required: true,
+            en: { question: "Research Consent Statement", label: "Yes, I agree that the data collected from this survey can be used anonymously for academic research." },
+            te: { question: "పరిశోధన సమ్మతి పత్రం", label: "అవును, ఈ సర్వే ద్వారా సేకరించిన సమాచారాన్ని అనామకంగా ఉపయోగించడానికి నేను అంగీకరిస్తున్నాను." }
+          }
+        ]
+      }
+    ];
+
+    /* ════════════════════════════════════════════════════════════════
+       APP STATE & HELPERS
+    ════════════════════════════════════════════════════════════════ */
+    const state = {
+      screen: 'welcome',
+      sectionIndex: 0,
+      globalLang: 'en',
+      answers: {},
+      shuffled: {},
+      ttsState: 'stopped',
+      ttsQuestionId: null
+    };
+
+    const TOTAL_SECTIONS = SURVEY_SECTIONS.length;
+
+    function initIcons() { if (window.lucide) lucide.createIcons(); }
+
+    function shuffleArray(array) {
+      let cur = array.length, rand;
+      while (cur !== 0) {
+        rand = Math.floor(Math.random() * cur);
+        cur--;
+        [array[cur], array[rand]] = [array[rand], array[cur]];
+      }
+      return array;
+    }
+
+    /* ── Form Validation ── */
+    function validateCurrentSection() {
+      const section = SURVEY_SECTIONS[state.sectionIndex];
+      let isValid = true;
+      let firstInvalidId = null;
+
+      section.questions.forEach(q => {
+        if (q.required === false) return; // Skip optional questions
+
+        let valid = false;
+        if (q.type === 'text' || q.type === 'textarea') {
+          valid = state.answers[q.id] && state.answers[q.id].trim() !== '';
+        } else if (q.type === 'radio' || q.type === 'consent') {
+          valid = state.answers[q.id] !== undefined && state.answers[q.id] !== null && state.answers[q.id] !== false;
+        } else if (q.type === 'checkbox' || q.type === 'limit-checkbox') {
+          valid = state.answers[q.id] && state.answers[q.id].length > 0;
+        }
+
+        const block = document.getElementById('qblock-' + q.id);
+        if (!valid) {
+          isValid = false;
+          if (!firstInvalidId) firstInvalidId = q.id;
+          if (block) block.classList.add('error-highlight');
+        } else {
+          if (block) block.classList.remove('error-highlight');
+        }
+      });
+
+      if (!isValid && firstInvalidId) {
+        const block = document.getElementById('qblock-' + firstInvalidId);
+        if (block) block.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      return isValid;
+    }
+
+    /* ── TTS Engine ── */
+    function toggleTTS(text, lang, qId) {
+      if (!('speechSynthesis' in window)) return;
+      const synth = window.speechSynthesis;
+      if (state.ttsQuestionId !== qId) { synth.cancel(); state.ttsState = 'stopped'; }
+
+      if (state.ttsState === 'stopped') {
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = lang === 'te' ? 'te-IN' : 'en-IN'; utter.rate = 0.9;
+        utter.onend = () => { state.ttsState = 'stopped'; state.ttsQuestionId = null; updateAllTTSButtons(); };
+        utter.onerror = () => { state.ttsState = 'stopped'; state.ttsQuestionId = null; updateAllTTSButtons(); };
+        synth.speak(utter); state.ttsState = 'playing'; state.ttsQuestionId = qId;
+      }
+      else if (state.ttsState === 'playing') { synth.pause(); state.ttsState = 'paused'; }
+      else if (state.ttsState === 'paused') { synth.resume(); state.ttsState = 'playing'; }
+      updateAllTTSButtons();
+    }
+
+    function updateAllTTSButtons() {
+      document.querySelectorAll('.tts-btn').forEach(btn => {
+        const qId = btn.dataset.qid;
+        if (state.ttsQuestionId === qId) {
+          btn.classList.add('tts-active');
+          btn.innerHTML = `<i data-lucide="${state.ttsState === 'playing' ? 'pause' : 'play'}" style="width:14px;height:14px;"></i>`;
+        } else {
+          btn.classList.remove('tts-active');
+          btn.innerHTML = `<i data-lucide="volume-2" style="width:14px;height:14px;"></i>`;
+        }
+      });
+      initIcons();
+    }
+    function stopAllAudio() { if ('speechSynthesis' in window) window.speechSynthesis.cancel(); state.ttsState = 'stopped'; state.ttsQuestionId = null; }
+
+    /* ════════════════════════════════════════════════════════════════
+       RENDER ENGINE
+    ════════════════════════════════════════════════════════════════ */
+    const app = document.getElementById('app');
+
+    function render() {
+      app.innerHTML = '';
+      const wrapper = document.createElement('div');
+      wrapper.className = 'screen w-full max-w-2xl mx-auto';
+
+      if (state.screen === 'welcome') wrapper.innerHTML = renderWelcome();
+      else if (state.screen === 'survey') wrapper.innerHTML = renderSurveySection();
+      else if (state.screen === 'done') wrapper.innerHTML = renderDone();
+
+      app.appendChild(wrapper);
+      initIcons();
+      updateAllTTSButtons();
+      attachEventListeners();
+    }
+
+    /* ────────────────────────────────────────────────────────────────
+       WELCOME SCREEN
+    ──────────────────────────────────────────────────────────────── */
+    function renderWelcome() {
+      return `
+      <div class="card p-6 md:p-12 text-center" style="min-height:480px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:28px;">
+        <div style="width:48px;height:4px;background:var(--amber);border-radius:99px;"></div>
+        <div>
+          <p style="font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Andhra Pradesh & Telangana · 2026</p>
+          <h1 style="font-size:clamp(22px,4vw,32px);font-weight:700;color:var(--charcoal);line-height:1.25;margin-bottom:8px;">
+            Art Educator Career Guidance Survey
+          </h1>
+          <p style="font-size:clamp(16px,2.5vw,20px);color:var(--muted);font-weight:500;">
+            ఆర్ట్ ఉపాధ్యాయుల కెరీర్ మార్గదర్శకత్వ సర్వే
+          </p>
+        </div>
+        <p style="max-width:440px;color:var(--muted);font-size:15px;line-height:1.7;">
+          This survey helps us understand how art educators in the region guide students toward creative careers.
+          Your insights will shape a comprehensive support toolkit.
+          <br/><br/>
+          <span style="color:var(--ink);">అంచనా వేయడానికి సుమారు <strong>5–8 నిమిషాలు</strong> పడుతుంది.</span>
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;">
+          <span class="limit-badge"><i data-lucide="lock" style="width:12px;height:12px;"></i> Anonymous &amp; Confidential</span>
+          <span class="limit-badge"><i data-lucide="layers" style="width:12px;height:12px;"></i> 6 Sections</span>
+          <span class="limit-badge"><i data-lucide="globe" style="width:12px;height:12px;"></i> EN · తెలుగు</span>
+        </div>
+        <button class="btn-primary mt-2" id="btn-start" style="width:100%; max-width: 400px; white-space: nowrap;">
+          Start Survey &nbsp;·&nbsp; సర్వే ప్రారంభించండి
+          <i data-lucide="arrow-right" style="width:16px;height:16px;"></i>
+        </button>
+      </div>
+    `;
+    }
+
+    /* ────────────────────────────────────────────────────────────────
+       SURVEY SECTION RENDER
+    ──────────────────────────────────────────────────────────────── */
+    function renderSurveySection() {
+      const section = SURVEY_SECTIONS[state.sectionIndex];
+      const progress = Math.round(((state.sectionIndex) / (TOTAL_SECTIONS - 1)) * 100);
+      const isTe = state.globalLang === 'te';
+
+      const questionsHtml = section.questions.map((q, qIndex) => {
+        const qLang = state.globalLang;
+        const data = q[qLang];
+        const qNum = `${state.sectionIndex + 1}.${qIndex + 1}`;
+
+        // Initialize Shuffling for this question if needed
+        if (q.randomize && !state.shuffled[q.id]) {
+          state.shuffled[q.id] = shuffleArray(q.en.options.map((_, i) => i));
+        }
+        const displayIndices = q.randomize ? state.shuffled[q.id] : (q.en.options ? q.en.options.map((_, i) => i) : []);
+
+        let qBody = '';
+        if (q.type === 'text' || q.type === 'textarea') qBody = renderTextBody(q, data, qNum);
+        else if (q.type === 'radio') qBody = renderRadioBody(q, data, qNum, displayIndices);
+        else if (q.type === 'checkbox') qBody = renderCheckboxBody(q, data, qNum, displayIndices, isTe);
+        else if (q.type === 'limit-checkbox') qBody = renderLimitCheckboxBody(q, data, qNum, displayIndices, isTe);
+        else if (q.type === 'consent') qBody = renderConsentBody(q, data, qNum);
+
+        return `
+        <div id="qblock-${q.id}" class="px-5 py-6 md:px-8 border-b border-[var(--border)] last:border-b-0 transition-all duration-300">
+          ${renderActionBar(q, qLang, data)}
+          ${qBody}
+        </div>
+      `;
+      }).join('');
+
+      const isFirst = state.sectionIndex === 0;
+      const isLast = state.sectionIndex === TOTAL_SECTIONS - 1;
+
+      // Submit Validation
+      const isConsentChecked = !!state.answers['q-consent'];
+      const isSubmitDisabled = isLast && !isConsentChecked;
+
+      // Dynamic Next Button Text
+      let nextBtnText = '';
+      if (isLast) {
+        nextBtnText = isTe ? 'సమర్పించండి' : 'Submit';
+      } else {
+        const nextTitle = SURVEY_SECTIONS[state.sectionIndex + 1][state.globalLang].title;
+        nextBtnText = isTe ? 'తదుపరి: ' + nextTitle : 'Next: ' + nextTitle;
+      }
+
+      return `
+      <div class="mb-4 md:mb-6">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <span style="font-size:11.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">
+            ${isTe ? 'విభాగం' : 'Section'} ${state.sectionIndex + 1} / ${TOTAL_SECTIONS}
+          </span>
+          <span style="font-size:11.5px;font-weight:600;color:var(--muted);">${progress}%</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:${progress}%;"></div></div>
+      </div>
+      
+      <div class="card mb-6">
+        <div class="px-5 py-6 md:px-8 md:py-6 border-b-[2px] border-[var(--sand)] flex justify-between items-start flex-wrap gap-4">
+           <h2 style="font-size:20px;font-weight:700;color:var(--charcoal); margin: 0; flex: 1 1 200px;">
+             ${section[state.globalLang].title}
+           </h2>
+           <div class="action-bar" style="flex-shrink:0;">
+             <button class="ab-btn global-lang-toggle ${!isTe ? 'active' : ''}" data-lang="en">EN</button>
+             <span style="font-size:11px;color:var(--border);padding:0 1px;">|</span>
+             <button class="ab-btn global-lang-toggle ${isTe ? 'active' : ''}" data-lang="te">తె</button>
+           </div>
+        </div>
+        
+        ${questionsHtml}
+        
+        <div class="px-5 py-6 md:p-6 bg-[var(--stone)] border-t border-[var(--border)] rounded-b-[20px] flex justify-between items-center gap-4 flex-wrap-reverse">
+          <button class="btn-ghost" id="btn-back" ${isFirst ? 'style="display:none;"' : ''}>
+            <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> ${isTe ? 'వెనక్కి' : 'Back'}
+          </button>
+          <button class="btn-primary" id="btn-next" ${isSubmitDisabled ? 'disabled' : ''} style="max-width: 100%;">
+            <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${nextBtnText}</span>
+            <i data-lucide="${isLast ? 'check-circle' : 'arrow-right'}" style="width:16px;height:16px; flex-shrink:0;"></i>
+          </button>
+        </div>
+      </div>
+    `;
+    }
+
+    function renderActionBar(q, lang, data) {
+      const isTe = lang === 'te';
+      let readText = (q.type === 'text' || q.type === 'textarea' || q.type === 'consent') ? data.question : data.question + '. ' + (data.options || []).join('. ');
+
+      return `
+      <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:8px;">
+        <div class="action-bar">
+          <button class="ab-btn tts-btn" data-qid="${q.id}" data-lang="${lang}" data-text="${encodeURIComponent(readText)}" title="${isTe ? 'చదివించు' : 'Read aloud'}">
+            <i data-lucide="volume-2" style="width:14px;height:14px;"></i>
+          </button>
+          ${data.tooltip ? `
+          <span class="ab-divider"></span>
+          <div class="tooltip-wrap">
+            <button class="ab-btn" title="${isTe ? 'సహాయం' : 'Help'}"><i data-lucide="info" style="width:14px;height:14px;"></i></button>
+            <div class="tooltip-box">${data.tooltip}</div>
+          </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+    }
+
+    /* ── Question Bodies ── */
+    function getQuestionTitleHtml(q, data, qNum, isMSQ = false, isTe = false) {
+      const reqMarkup = q.required !== false ? `<span class="text-red-500 ml-1 font-bold">*</span>` : '';
+      const msqBadge = isMSQ ? `<div class="mt-1 mb-4 text-[11px] font-bold uppercase tracking-wider text-amber-600">${isTe ? 'బహుళ ఎంపికలు సాధ్యమే' : 'Multiple Selection Possible'}</div>` : '';
+      return `
+        <p style="font-size:16px;font-weight:600;color:var(--charcoal);margin-bottom:${isMSQ ? '4px' : '16px'};">
+          <span style="color:var(--muted); margin-right:4px;">${qNum}.</span> ${data.question} ${reqMarkup}
+        </p>
+        ${msqBadge}
+      `;
+    }
+
+    function renderTextBody(q, data, qNum) {
+      const saved = state.answers[q.id] || '';
+      const isTextarea = q.type === 'textarea';
+      return `
+      ${getQuestionTitleHtml(q, data, qNum)}
+      ${isTextarea
+          ? `<textarea class="form-input textarea-answer" data-qid="${q.id}" placeholder="${data.placeholder}">${saved}</textarea>`
+          : `<input type="text" class="form-input text-answer" data-qid="${q.id}" placeholder="${data.placeholder}" value="${saved}" />`
+        }
+    `;
+    }
+
+    function renderRadioBody(q, data, qNum, displayIndices) {
+      const selected = state.answers[q.id] || null;
+      const options = displayIndices.map(i => `
+      <div class="msq-card ${selected === i ? 'selected' : ''}" data-qid="${q.id}" data-val="${i}">
+        <div class="radio-dot"><div class="radio-dot-inner"></div></div>
+        <span>${data.options[i]}</span>
+      </div>
+    `).join('');
+      return `${getQuestionTitleHtml(q, data, qNum)} <div style="display:flex;flex-direction:column;gap:12px;">${options}</div>`;
+    }
+
+    function renderCheckboxBody(q, data, qNum, displayIndices, isTe) {
+      const selected = state.answers[q.id] || [];
+      const options = displayIndices.map(i => `
+      <div class="msq-card ${selected.includes(i) ? 'selected' : ''}" data-qid="${q.id}" data-val="${i}">
+        <div class="check-box"><i data-lucide="check" class="check-icon"></i></div>
+        <span>${data.options[i]}</span>
+      </div>
+    `).join('');
+      return `${getQuestionTitleHtml(q, data, qNum, true, isTe)} <div style="display:flex;flex-direction:column;gap:12px;">${options}</div>`;
+    }
+
+    function renderLimitCheckboxBody(q, data, qNum, displayIndices, isTe) {
+      const selected = state.answers[q.id] || [];
+      const max = q.max || 3;
+      const reached = selected.length >= max;
+
+      const options = displayIndices.map(i => {
+        const isSel = selected.includes(i);
+        return `
+        <div class="msq-card ${isSel ? 'selected' : ''} ${reached && !isSel ? 'disabled' : ''}" data-qid="${q.id}" data-val="${i}" data-limit="true">
+          <div class="check-box"><i data-lucide="check" class="check-icon"></i></div>
+          <span>${data.options[i]}</span>
+        </div>`;
+      }).join('');
+
+      const titleHtml = `
+      <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:4px; flex-wrap:wrap;">
+        <p style="font-size:16px;font-weight:600;color:var(--charcoal); margin:0; flex: 1 1 100%;">
+          <span style="color:var(--muted); margin-right:4px;">${qNum}.</span> ${data.question} <span class="text-red-500 ml-1 font-bold">*</span>
+        </p>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:8px;">
+        <div class="text-[11px] font-bold uppercase tracking-wider text-amber-600">${isTe ? `గరిష్టంగా ${max} ఎంపికలు` : `Select Up to ${max} Choices`}</div>
+        <span class="limit-badge ${reached ? 'reached' : ''}" id="badge-${q.id}">
+          <i data-lucide="${reached ? 'check' : 'pointer'}" style="width:13px;height:13px;"></i> ${selected.length} / ${max}
+        </span>
+      </div>`;
+
+      return `${titleHtml} <div style="display:flex;flex-direction:column;gap:12px;">${options}</div>`;
+    }
+
+    function renderConsentBody(q, data, qNum) {
+      const isChecked = !!state.answers[q.id];
+      return `
+      ${getQuestionTitleHtml(q, data, qNum)}
+      <div class="msq-card ${isChecked ? 'selected' : ''} consent-card" data-qid="${q.id}" data-val="true">
+        <div class="check-box"><i data-lucide="check" class="check-icon"></i></div>
+        <span class="font-medium">${data.label}</span>
+      </div>
+      `;
+    }
+
+    /* ────────────────────────────────────────────────────────────────
+       DONE SCREEN
+    ──────────────────────────────────────────────────────────────── */
+    function renderDone() {
+      const isTe = state.globalLang === 'te';
+      const wantsEmail = !!state.answers['q-optin'];
+
+      const emailBox = wantsEmail ? `
+        <div style="background-color: var(--cream); border: 1px solid var(--sand); padding: 16px 20px; border-radius: 12px; display: inline-block; max-width: 460px; text-align: left; box-shadow: 0 2px 8px rgba(0,0,0,0.02); margin-top: 16px;">
+          <div style="display:flex; gap:12px; align-items: flex-start;">
+            <div style="background:var(--amber-lt); color:var(--amber); padding:8px; border-radius:8px; flex-shrink:0;">
+              <i data-lucide="mail" style="width:18px;height:18px;"></i>
+            </div>
+            <p style="color:var(--charcoal);font-size:14px;line-height:1.6;margin:0;">
+              ${isTe
+          ? 'మీ ప్రతిస్పందనల PDF కాపీ మీ ఇమెయిల్‌కు పంపబడింది.'
+          : 'A PDF copy of your responses has been sent to your email.'}
+            </p>
+          </div>
+        </div>
+      ` : '';
+
+      return `
+      <div class="card p-6 md:p-12 text-center" style="min-height:420px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;">
+        
+        <div style="width:100%; display:flex; flex-direction:column; align-items:center; gap:20px;">
+          
+          <div style="width:72px;height:72px;border-radius:50%;background:var(--cream);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);">
+            <i data-lucide="sparkles" style="width:36px;height:36px;color:var(--amber);"></i>
+          </div>
+          
+          <div style="width:100%; display:flex; justify-content:center;">
+            <div style="width:48px;height:3px;background:var(--amber);border-radius:99px;"></div>
+          </div>
+
+        </div>
+        <div>
+          <h2 style="font-size:clamp(22px,4vw,30px);font-weight:700;color:var(--charcoal);margin-bottom:12px;">
+            ${isTe ? 'మీ సమయానికి ధన్యవాదాలు!' : 'Thank you for your time!'}
+          </h2>
+          
+          <p style="color:var(--muted);font-size:15px;line-height:1.7;max-width:440px;margin:0 auto;">
+            ${isTe
+          ? 'ఈ క్రియేటివ్ గైడెన్స్ టూల్‌కిట్‌ను మెరుగుపరచడంలో మీ అంతర్దృష్టులు మాకు చాలా విలువైనవి.'
+          : 'Your insights are actively helping us shape a better creative guidance toolkit for the region.'}
+          </p>
+          
+          ${emailBox}
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px;">
+          <span class="limit-badge"><i data-lucide="layers" style="width:12px;height:12px;"></i> 6 ${isTe ? 'విభాగాలు పూర్తి' : 'Sections Complete'}</span>
+          <span class="limit-badge" style="color:var(--amber);border-color:var(--amber);background:var(--amber-lt);">
+            <i data-lucide="star" style="width:12px;height:12px;"></i> ${isTe ? 'విజయవంతంగా ఆమోదించబడింది' : 'Successfully Submitted'}
+          </span>
+        </div>
+
+        <button class="btn-ghost" id="btn-restart" style="margin-top:16px;">
+          <i data-lucide="refresh-ccw" style="width:14px;height:14px;"></i> ${isTe ? 'మరొక ప్రతిస్పందనను సమర్పించండి' : 'Submit another response'}
+        </button>
+      </div>
+    `;
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       EVENT LISTENERS
+    ════════════════════════════════════════════════════════════════ */
+    function attachEventListeners() {
+
+      // Welcome Screen Start Button
+      const btnStart = document.getElementById('btn-start');
+      if (btnStart) btnStart.addEventListener('click', () => { state.screen = 'survey'; state.sectionIndex = 0; render(); });
+
+      // Done Screen Restart Button
+      const btnRestart = document.getElementById('btn-restart');
+      if (btnRestart) btnRestart.addEventListener('click', () => {
+        stopAllAudio();
+
+        // Completely wipe the state clean for the new user
+        Object.assign(state, {
+          screen: 'welcome',
+          sectionIndex: 0,
+          answers: {},
+          shuffled: {},
+          ttsState: 'stopped',
+          ttsQuestionId: null
+        });
+
+        render();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // Nav Buttons
+      const btnBack = document.getElementById('btn-back');
+      if (btnBack) btnBack.addEventListener('click', () => {
+        stopAllAudio();
+        if (state.sectionIndex > 0) { state.sectionIndex--; render(); }
+        // Quick scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      const btnNext = document.getElementById('btn-next');
+      if (btnNext) btnNext.addEventListener('click', async () => {
+        stopAllAudio();
+
+        // 1. Mandatory Validation
+        if (!validateCurrentSection()) {
+          return; // Stop if invalid
+        }
+
+        // 2. Next Section
+        if (state.sectionIndex < TOTAL_SECTIONS - 1) {
+          state.sectionIndex++;
+          render();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
+
+        // 3. SUBMIT LOGIC (Last Page)
+        const isTe = state.globalLang === 'te';
+        const originalText = btnNext.innerHTML;
+
+        btnNext.innerHTML = `<i data-lucide="loader-2" class="animate-spin" style="width:16px;height:16px;animation:spin 1s linear infinite;"></i> ${isTe ? 'సమర్పిస్తున్నాము...' : 'Submitting...'}`;
+        btnNext.style.pointerEvents = 'none';
+        btnNext.style.opacity = '0.7';
+        initIcons();
+
+        const finalPayload = {};
+        const wantsEmail = !!state.answers['q-optin'];
+
+        SURVEY_SECTIONS.forEach(sec => {
+          sec.questions.forEach(q => {
+            if (q.type === 'consent') return; // Skip internal consent states from payload
+
+            const qText = q.en.question;
+            let answer = "No Answer";
+
+            if (q.type === 'text' || q.type === 'textarea') {
+              answer = state.answers[q.id] || "No Answer";
+            } else if (q.type === 'radio') {
+              const sIdx = state.answers[q.id];
+              if (sIdx !== undefined && sIdx !== null) answer = q.en.options[sIdx];
+            } else if (q.type === 'checkbox' || q.type === 'limit-checkbox') {
+              const sArr = state.answers[q.id] || [];
+              if (sArr.length > 0) answer = sArr.map(idx => q.en.options[idx]).join(", ");
+            }
+
+            // Email opt-in masking logic
+            if (q.id === 'q-email' && !wantsEmail) {
+              finalPayload["Email Address (Opted Out of PDF)"] = answer;
+            } else {
+              finalPayload[qText] = answer;
+            }
+          });
+        });
+
+        const GOOGLE_APP_URL = "https://script.google.com/macros/s/AKfycbyczxpzNk1Eop7RnutfYMAvWesnH9WpCTTYJyxhQAsEjFkqVVf-vzs2uY3xQSkgzoeXBw/exec";
+
+        try {
+          await fetch(GOOGLE_APP_URL, {
+            method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(finalPayload)
+          });
+          state.screen = 'done'; render(); window.scrollTo({ top: 0, behavior: 'smooth' });
+        } catch (error) {
+          console.error("Submission failed", error);
+          alert(isTe ? "ఏదో తప్పు జరిగింది. దయచేసి మళ్లీ ప్రయత్నించండి." : "Something went wrong. Please try again.");
+          btnNext.innerHTML = originalText; btnNext.style.pointerEvents = 'auto'; btnNext.style.opacity = '1'; initIcons();
+        }
+      });
+
+      // Global Language Toggle
+      document.querySelectorAll('.global-lang-toggle').forEach(btn => {
+        btn.addEventListener('click', () => {
+          stopAllAudio(); state.globalLang = btn.dataset.lang; render();
+        });
+      });
+
+      // TTS Toggle 
+      document.querySelectorAll('.tts-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          toggleTTS(decodeURIComponent(btn.dataset.text), btn.dataset.lang, btn.dataset.qid);
+        });
+      });
+
+      // Radio Selection
+      document.querySelectorAll('.msq-card').forEach(card => {
+        if (card.classList.contains('consent-card')) return;
+
+        card.addEventListener('click', () => {
+          const qId = card.dataset.qid;
+          const val = parseInt(card.dataset.val, 10);
+          const qObj = SURVEY_SECTIONS[state.sectionIndex].questions.find(q => q.id === qId);
+
+          if (qObj.type === 'radio') {
+            state.answers[qId] = val;
+            document.querySelectorAll(`.msq-card[data-qid="${qId}"]`).forEach(c => c.classList.toggle('selected', parseInt(c.dataset.val, 10) === val));
+            // Remove error highlight instantly
+            const block = document.getElementById('qblock-' + qId);
+            if (block) block.classList.remove('error-highlight');
+          }
+          else if (qObj.type === 'checkbox' || qObj.type === 'limit-checkbox') {
+            if (card.classList.contains('disabled')) return;
+            if (!state.answers[qId]) state.answers[qId] = [];
+            const arr = state.answers[qId];
+            const idx = arr.indexOf(val);
+            const max = qObj.max || 99;
+
+            if (idx === -1) { if (arr.length >= max) return; arr.push(val); }
+            else { arr.splice(idx, 1); }
+
+            const reached = qObj.type === 'limit-checkbox' && arr.length >= max;
+            document.querySelectorAll(`.msq-card[data-qid="${qId}"]`).forEach(c => {
+              const v = parseInt(c.dataset.val, 10);
+              const sel = arr.includes(v);
+              c.classList.toggle('selected', sel);
+              if (qObj.type === 'limit-checkbox') c.classList.toggle('disabled', reached && !sel);
+            });
+
+            if (qObj.type === 'limit-checkbox') {
+              const badge = document.getElementById(`badge-${qId}`);
+              if (badge) {
+                badge.innerHTML = `<i data-lucide="${reached ? 'check' : 'pointer'}" style="width:13px;height:13px;display:inline-block;"></i> ${arr.length} / ${max}`;
+                badge.classList.toggle('reached', reached);
+                initIcons();
+              }
+            }
+            // Remove error highlight
+            const block = document.getElementById('qblock-' + qId);
+            if (block && arr.length > 0) block.classList.remove('error-highlight');
+          }
+        });
+      });
+
+      // Consent Checkbox Selection
+      document.querySelectorAll('.consent-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const qId = card.dataset.qid;
+          state.answers[qId] = !state.answers[qId];
+
+          // Update the UI directly to avoid fade-in re-render
+          card.classList.toggle('selected', state.answers[qId]);
+
+          // Re-evaluate Submit button disabled state without re-rendering
+          const btnNext = document.getElementById('btn-next');
+          const isConsentChecked = !!state.answers['q-consent'];
+          if (btnNext && state.sectionIndex === TOTAL_SECTIONS - 1) {
+            btnNext.disabled = !isConsentChecked;
+          }
+        });
+      });
+
+      // Text Input
+      document.querySelectorAll('.text-answer, .textarea-answer').forEach(inp => {
+        inp.addEventListener('input', () => {
+          state.answers[inp.dataset.qid] = inp.value;
+          if (inp.value.trim() !== '') {
+            const block = document.getElementById('qblock-' + inp.dataset.qid);
+            if (block) block.classList.remove('error-highlight');
+          }
+        });
+      });
+
+      // Tooltips
+      document.querySelectorAll('.tooltip-wrap button').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const wrap = btn.closest('.tooltip-wrap');
+          wrap.classList.toggle('active');
+          document.querySelectorAll('.tooltip-wrap.active').forEach(w => { if (w !== wrap) w.classList.remove('active'); });
+        });
+      });
+      document.addEventListener('click', () => { document.querySelectorAll('.tooltip-wrap.active').forEach(w => w.classList.remove('active')); });
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       BOOTSTRAP
+    ════════════════════════════════════════════════════════════════ */
+    render();
+  </script>
+</body>
+
+</html>
