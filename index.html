@@ -1104,7 +1104,10 @@
               if (sIdx !== undefined && sIdx !== null) answer = q.en.options[sIdx];
             } else if (q.type === 'checkbox' || q.type === 'limit-checkbox') {
               const sArr = state.answers[q.id] || [];
-              if (sArr.length > 0) answer = sArr.map(idx => q.en.options[idx]).join(", ");
+              if (sArr.length > 0) {
+                // Map each answer to start with a bullet point 
+                answer = sArr.map(idx => "• " + q.en.options[idx]).join("\n");
+              }
             }
             
             if (q.id === 'q-email' && !wantsEmail) {
@@ -1159,9 +1162,16 @@
           if (qObj.type === 'radio') {
             state.answers[qId] = val;
             document.querySelectorAll(`.msq-card[data-qid="${qId}"]`).forEach(c => c.classList.toggle('selected', parseInt(c.dataset.val, 10) === val));
-            // Remove error highlight instantly
+            
             const block = document.getElementById('qblock-' + qId);
             if (block) block.classList.remove('error-highlight');
+
+            // FIX: Dynamically evaluate Submit button state if we are on the last page
+            if (state.sectionIndex === TOTAL_SECTIONS - 1) {
+              const btnNext = document.getElementById('btn-next');
+              const consentVal = state.answers['q-consent'];
+              if (btnNext) btnNext.disabled = (consentVal === undefined || consentVal === null);
+            }
           }
           else if (qObj.type === 'checkbox' || qObj.type === 'limit-checkbox') {
             if (card.classList.contains('disabled')) return;
@@ -1189,27 +1199,25 @@
                 initIcons();
               }
             }
-            // Remove error highlight
             const block = document.getElementById('qblock-' + qId);
             if (block && arr.length > 0) block.classList.remove('error-highlight');
           }
         });
       });
 
-      // Consent Checkbox Selection
+      // Consent Checkbox Selection (For the Email Opt-In)
       document.querySelectorAll('.consent-card').forEach(card => {
         card.addEventListener('click', () => {
           const qId = card.dataset.qid;
           state.answers[qId] = !state.answers[qId];
 
-          // Update the UI directly to avoid fade-in re-render
           card.classList.toggle('selected', state.answers[qId]);
 
-          // Re-evaluate Submit button disabled state without re-rendering
-          const btnNext = document.getElementById('btn-next');
-          const isConsentChecked = !!state.answers['q-consent'];
-          if (btnNext && state.sectionIndex === TOTAL_SECTIONS - 1) {
-            btnNext.disabled = !isConsentChecked;
+          // FIX: Safely evaluate the radio value so it doesn't break if "Yes" (0) is selected
+          if (state.sectionIndex === TOTAL_SECTIONS - 1) {
+            const btnNext = document.getElementById('btn-next');
+            const consentVal = state.answers['q-consent'];
+            if (btnNext) btnNext.disabled = (consentVal === undefined || consentVal === null);
           }
         });
       });
